@@ -1,9 +1,12 @@
 import os
-import pytest
+import csv
+
 import weather_data as wd
+
+import pytest
 from unittest.mock import patch
 
-LIVE_TESTS = False
+LIVE_TESTS = True
 
 @pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that make API requests')
 class TestAPI_Requests:
@@ -44,7 +47,7 @@ class TestWeatherDictFromCSV:
             wd._weather_dict_from_csv(empty_csv)
 
     @patch('weather_data._city_weather')
-    def test_location_csv_with_moch_data(self, mock_request, test_csv, mock_api_response):
+    def test_location_csv_with_mock_data(self, mock_request, test_csv, mock_api_response):
         #mock the request object to return data from the mock_request dict
         mock_request.side_effect = lambda city: mock_api_response.get(city)
         data = wd._weather_dict_from_csv(test_csv)
@@ -59,5 +62,65 @@ class TestWeatherDictFromCSV:
         assert list(data.keys()) == cities
 
 
-def test_weather_csv_from_dict(tmpdir, mock_api_response):
-    pass
+@pytest.fixture
+def generated_csv(tmpdir, mock_api_response):
+    #create the file
+    path = str(tmpdir.join('test.csv'))
+    wd._generate_weather_csv(mock_api_response, path)
+
+    #open the file
+    with open(path) as file:
+        csv_file = csv.reader(file)
+        yield csv_file
+
+@pytest.fixture(scope='session')
+def headers():
+    return ['Location', 'Temperature', 'Wind Speed', 'Weather Description']
+
+class TestWeatherCSVFromDict:
+    def test_generate_csv(self, tmpdir, mock_api_response):
+        path = str(tmpdir.join('test.csv'))
+        wd._generate_weather_csv(mock_api_response, path)
+        # check that a new csv file was created
+        assert 'test.csv' in os.listdir(str(tmpdir))
+
+    def test_csv_headers(self, generated_csv, headers):
+        assert next(generated_csv) == headers
+
+    def test_csv_data(self, generated_csv, headers):
+            next(generated_csv) #skip the header row
+            for row in generated_csv:
+                # each row should contain ['Location', 'Temperature', 'Wind Speed', 'Weather Description']
+                assert len(row) == len(headers)
+
+
+class TestWeatherCSVFromCSV:
+    @patch('weather_data._city_weather')
+    def test_weather_csv_from_mock_data(self, mock_request, test_csv, mock_api_response):
+        mock_request.side_effect = lambda city: mock_api_response.get(city)
+        path = wd.weather_data_csv(test_csv)
+        # make sure that the csv file was created in the same file
+        assert 'weather_data.csv' in os.listdir(os.path.dirname(test_csv))
+
+    @patch('weather_data._city_weather')
+    def test_headers(self, mock_request, test_csv, mock_api_response, headers):
+        mock_request.side_effect = lambda city: mock_api_response.get(city)
+        path = wd.weather_data_csv(test_csv)
+        with open(path) as file:
+            csv_file = csv.reader(file)
+            assert next(csv_file) == headers
+
+    @patch('weather_data._city_weather')
+    def test_csv_data(self, mock_request, test_csv, mock_api_response, headers):
+        mock_request.side_effect = lambda city: mock_api_response.get(city)
+        path = wd.weather_data_csv(test_csv)
+        with open(path) as file:
+            csv_file = csv.reader(file)
+            next(csv_file) #skip the header row
+            for row in csv_file:
+                assert len(row) == len(headers)
+
+    @pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that make API requests')
+    def test_weather_csv_from_api_request(self, test_csv):
+        path = wd.weather_data_csv(test_csv)
+        assert 'weather_data.csv' in os.listdir(os.path.dirname(test_csv))
