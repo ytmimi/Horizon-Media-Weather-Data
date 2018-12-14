@@ -63,8 +63,7 @@ def _weather_dict_from_csv(csv_path):
 	try:
 		with open(csv_path, 'r') as file:
 			csv_file = csv.DictReader(file, fieldnames=['Location'])
-			# skip the header row
-			next(csv_file)
+			next(csv_file) # skip the header row
 			for row in csv_file:
 				city = row['Location']
 				#get weather data from the API
@@ -113,4 +112,9 @@ def weather_data_csv(csv_path):
 
 
 if __name__ == '__main__':
-	pass
+	base_path = os.path.dirname(os.path.dirname(__file__))
+
+	#path to the location csv
+	location_csv = os.path.join(base_path, 'CSVs', 'locations.csv')
+	#generate the new file
+	weather_data_csv(location_csv)
