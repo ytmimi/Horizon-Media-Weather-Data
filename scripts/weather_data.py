@@ -70,6 +70,7 @@ def _weather_dict_from_csv(csv_path):
 				data = _city_weather(city)
 				if data and city not in cities:
 					cities[city] = data
+					print(f'GETTING WEATHER DATA FOR: {city}')
 	except FileNotFoundError:
 		raise FileNotFoundError(f'{csv_path} not found')
 	except StopIteration:
@@ -117,4 +118,6 @@ if __name__ == '__main__':
 	#path to the location csv
 	location_csv = os.path.join(base_path, 'CSVs', 'locations.csv')
 	#generate the new file
-	weather_data_csv(location_csv)
+	csv_path = weather_data_csv(location_csv)
+
+	print(f'GENERATING WEATHER CSV AT: {csv_path}')
