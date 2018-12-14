@@ -1,32 +1,63 @@
+import os
 import pytest
-from weather_data import _city_weather
-
+import weather_data as wd
+from unittest.mock import patch
 
 LIVE_TESTS = False
 
-@pytest.fixture(scope='module')
-def mock_api_resp():
-    return {
-        'coord': {'lon': -73.99, 'lat': 40.73},
-        'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10d'}, {'id': 615, 'main': 'Snow', 'description': 'light rain and snow', 'icon': '13d'}, {'id': 701, 'main': 'Mist', 'description': 'mist', 'icon': '50d'}],
-        'base': 'stations',
-        'main': {'temp': 274.62, 'pressure': 1029, 'humidity': 85, 'temp_min': 272.55, 'temp_max': 275.95},
-        'visibility': 14484,
-        'wind': {'speed': 5.1, 'deg': 10},
-        'rain': {'1h': 0.25}, 'snow': {'1h': 0.08},
-        'clouds': {'all': 90}, 'dt': 1544722080,
-        'sys': {'type': 1, 'id': 4026, 'message': 0.0051, 'country': 'US', 'sunrise': 1544703120, 'sunset': 1544736543},
-        'id': 5128581,
-        'name': 'New York',
-        'cod': 200
-    }
+@pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that make API requests')
+class TestAPI_Requests:
+    def test_request_by_city(self):
+        data = wd._city_weather('New York')
+        # these are the keys in the json response that contain the data that we care about
+        # just running a test to make sure that they are contained in the response
+        for key in ['name', 'main', 'wind', 'weather']:
+            assert key in data.keys()
+
+    def test_request_by_ID(self):
+        #requests made with an ID should return None
+        #example id taken from docs: https://openweathermap.org/current#cityid
+        data = wd._city_weather('2172797')
+        assert data == None
+
+    def test_request_by_zip(self):
+        #surprisingly, passing in a vaild zip and country code returns a result
+        #example zip taken from docs: https://openweathermap.org/current#zip
+        data = wd._city_weather('94040')
+        assert isinstance(data, dict)
 
 
-# this test will make a LIVE api call
-@pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that ')
-def test_city_weather():
-    data = city_weather('New York')
-    # these are the keys in the json response that contain the data that we care about
-    # just running a test to make sure that they are contained in the response
-    for key in ['name', 'main', 'wind', 'weather']:
-        assert key in data.keys()
+class TestWeatherDictFromCSV:
+    def test_non_csv(self, non_csv_file):
+        #raise ValueError if non csv file is used
+        with pytest.raises(ValueError) as err:
+            wd._weather_dict_from_csv(non_csv_file)
+
+    def test_csv_does_not_exist(self, non_existent_csv):
+        #raise FileNotFoundError if incorrect file path is given
+        with pytest.raises(FileNotFoundError) as err:
+            wd._weather_dict_from_csv(non_existent_csv)
+
+    def test_empty_csv(self, empty_csv):
+        #raise a StopIteration error if you attempt to parse and empty csv
+        with pytest.raises(StopIteration) as err:
+            wd._weather_dict_from_csv(empty_csv)
+
+    @patch('weather_data._city_weather')
+    def test_location_csv_with_moch_data(self, mock_request, test_csv, mock_api_response):
+        #mock the request object to return data from the mock_request dict
+        mock_request.side_effect = lambda city: mock_api_response.get(city)
+        data = wd._weather_dict_from_csv(test_csv)
+
+        assert isinstance(data, dict)
+        assert mock_api_response.keys() == data.keys()
+
+    @pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that make API requests')
+    def test_location_csv_with_API_data(self, test_csv, cities):
+        data = wd._weather_dict_from_csv(test_csv)
+        assert isinstance(data, dict)
+        assert list(data.keys()) == cities
+
+
+def test_weather_csv_from_dict(tmpdir, mock_api_response):
+    pass
