@@ -1,0 +1,227 @@
+{
+    "Albany": {
+        "coord": {
+            "lon": -73.75,
+            "lat": 42.65
+        },
+        "weather": [
+            {
+                "id": 804,
+                "main": "Clouds",
+                "description": "overcast clouds",
+                "icon": "04d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 42.31,
+            "pressure": 1026,
+            "humidity": 75,
+            "temp_min": 41,
+            "temp_max": 42.98
+        },
+        "visibility": 16093,
+        "wind": {
+            "speed": 3.36,
+            "gust": 7.2
+        },
+        "clouds": {
+            "all": 90
+        },
+        "dt": 1544820720,
+        "sys": {
+            "type": 1,
+            "id": 3310,
+            "message": 0.0034,
+            "country": "US",
+            "sunrise": 1544789883,
+            "sunset": 1544822530
+        },
+        "id": 5106834,
+        "name": "Albany",
+        "cod": 200
+    },
+    "Albuquerque": {
+        "coord": {
+            "lon": -106.65,
+            "lat": 35.08
+        },
+        "weather": [
+            {
+                "id": 801,
+                "main": "Clouds",
+                "description": "few clouds",
+                "icon": "02d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 46.58,
+            "pressure": 1028,
+            "humidity": 20,
+            "temp_min": 42.98,
+            "temp_max": 51.98
+        },
+        "visibility": 16093,
+        "wind": {
+            "speed": 4.7
+        },
+        "clouds": {
+            "all": 20
+        },
+        "dt": 1544820420,
+        "sys": {
+            "type": 1,
+            "id": 3232,
+            "message": 0.0036,
+            "country": "US",
+            "sunrise": 1544796443,
+            "sunset": 1544831768
+        },
+        "id": 5454711,
+        "name": "Albuquerque",
+        "cod": 200
+    },
+    "Anchorage": {
+        "coord": {
+            "lon": -149.89,
+            "lat": 61.22
+        },
+        "weather": [
+            {
+                "id": 600,
+                "main": "Snow",
+                "description": "light snow",
+                "icon": "13d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 12.9,
+            "pressure": 993,
+            "humidity": 80,
+            "temp_min": 12.02,
+            "temp_max": 14
+        },
+        "visibility": 16093,
+        "wind": {
+            "speed": 5.82,
+            "deg": 360
+        },
+        "clouds": {
+            "all": 75
+        },
+        "dt": 1544818860,
+        "sys": {
+            "type": 1,
+            "id": 7756,
+            "message": 0.0046,
+            "country": "US",
+            "sunrise": 1544814557,
+            "sunset": 1544834412
+        },
+        "id": 5879400,
+        "name": "Anchorage",
+        "cod": 200
+    },
+    "Atlanta": {
+        "coord": {
+            "lon": -84.39,
+            "lat": 33.75
+        },
+        "weather": [
+            {
+                "id": 501,
+                "main": "Rain",
+                "description": "moderate rain",
+                "icon": "10d"
+            },
+            {
+                "id": 701,
+                "main": "Mist",
+                "description": "mist",
+                "icon": "50d"
+            },
+            {
+                "id": 300,
+                "main": "Drizzle",
+                "description": "light intensity drizzle",
+                "icon": "09d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 49.24,
+            "pressure": 1014,
+            "humidity": 95,
+            "temp_min": 46.94,
+            "temp_max": 51.98
+        },
+        "visibility": 8047,
+        "wind": {
+            "speed": 9.17,
+            "deg": 90
+        },
+        "rain": {
+            "1h": 0.76
+        },
+        "clouds": {
+            "all": 90
+        },
+        "dt": 1544819700,
+        "sys": {
+            "type": 1,
+            "id": 4399,
+            "message": 0.0041,
+            "country": "US",
+            "sunrise": 1544790893,
+            "sunset": 1544826631
+        },
+        "id": 4180439,
+        "name": "Atlanta",
+        "cod": 200
+    },
+    "Austin": {
+        "coord": {
+            "lon": -97.74,
+            "lat": 30.27
+        },
+        "weather": [
+            {
+                "id": 804,
+                "main": "Clouds",
+                "description": "overcast clouds",
+                "icon": "04d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 49.8,
+            "pressure": 1018,
+            "humidity": 58,
+            "temp_min": 46.94,
+            "temp_max": 53.06
+        },
+        "visibility": 16093,
+        "wind": {
+            "speed": 8.05,
+            "deg": 320,
+            "gust": 14.9
+        },
+        "clouds": {
+            "all": 90
+        },
+        "dt": 1544819700,
+        "sys": {
+            "type": 1,
+            "id": 3344,
+            "message": 0.0041,
+            "country": "US",
+            "sunrise": 1544793592,
+            "sunset": 1544830342
+        },
+        "id": 4671654,
+        "name": "Austin",
+        "cod": 200
+    }
+}
