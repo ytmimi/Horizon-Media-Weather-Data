@@ -6,7 +6,7 @@ import weather_data as wd
 import pytest
 from unittest.mock import patch
 
-LIVE_TESTS = True
+LIVE_TESTS = False
 
 @pytest.mark.skipif(not LIVE_TESTS, reason='Explicitly run tests that make API requests')
 class TestAPI_Requests:
