@@ -79,7 +79,7 @@ However, I would recommend first running all the tests to ensure that everything
 ### Tests
 Since this project revolves around a weather data service that we don't control I wanted to write some unit tests. This would allow me to mock out API responses to test the functionality of the code without having to continually make outgoing requests to OpenWeatherMap's API. Just to be sure that the code continues to function in the future, some tests actually call the API when they run. Having a set of tests will also help prevent adding bugs to the system when updating the code in the future.
 
-I've writen my tests using `pytest`. To make sure `pytest` is available in your virtual environment run:
+I've written my tests using `pytest`. To make sure `pytest` is available in your virtual environment run:
 ```
 $: pipenv install --dev
 ```
