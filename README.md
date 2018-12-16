@@ -21,7 +21,7 @@
 Below is a detailed description of how to run the code and the rational for the choices I made while working on this assignment
 
 ### Setup
-I'll be using `pipenv` for dependency management during this project. I beleive it's important to keep packages for different projects isolated in their own environment, otherwise you run the risk of updating global packages and breaking older projects. I enjoy `pipenv` because it's simple, allows others to easily recreate your enviornment from the `pipfile.lock`, and loads enviornment variables from a `.env` file. If you'd like to use other tools for setting up your virtual enviornment I've included a `requirements.txt` file, which outlines all the external packages used. The main package to note is `requests version 2.21.0`. All other packages are dependencies of requests.
+I'll be using `pipenv` for dependency management during this project. I believe it's important to keep packages for different projects isolated in their own environment, otherwise you run the risk of updating global packages and breaking older projects. I enjoy `pipenv` because it's simple, allows others to easily recreate your environment  from the `pipfile.lock`, and loads environment  variables from a `.env` file. If you'd like to use other tools for setting up your virtual environment  I've included a `requirements.txt` file, which outlines all the external packages used. The main package to note is `requests version 2.21.0`. All other packages are dependencies of requests.
 
 If you don't already have `pipenv` installed you can do so with:
 ```
@@ -64,7 +64,7 @@ ACCOUNT_STATUS = 'free'
 This setting controls rate limiting to one request/second for free accounts. If you have a free account and still decide to change the `ACCOUNT_STATUS` to `paid` any 429 responses you get from the server will not be handled and you wont get weather data for that city. In the worst case OpenWeatherMap may [suspend your account](https://openweathermap.org/appid).
 
 
-If you're using `pipenv` you can now activate the virtual enviornment by running:
+If you're using `pipenv` you can now activate the virtual environment  by running:
 ```
 $: pipenv shell
 ```
@@ -83,7 +83,7 @@ I've writen my tests using `pytest`. To make sure `pytest` is available in your 
 ```
 $: pipenv install --dev
 ```
-This will install all developemnt dependencies (`pytets`), for this project.
+This will install all development dependencies (`pytets`), for this project.
 
 Assuming you've activated your virtual environment, you can run the tests with:
 ```
@@ -118,7 +118,7 @@ If you don't see any 'F' or 'E' characters in the output, then that means that t
 ### Running the code
 If you've setup the virtual environment, included your API key, and didn't get errors when running the tests (include "LIVE" tests), then you can be sure that the code will work as its written.
 
-Before running the tests, make sure you've activated the virtual enviornment:
+Before running the tests, make sure you've activated the virtual environment :
 ```
 $: pipenv shell
 ```
@@ -150,7 +150,7 @@ $: pipenv --rm
 
 
 #### *2)* What are potential optimization opportunities?
-  * The [OpenWeatherMap API Tips](https://openweathermap.org/appid) also state that weather data in their system doesn't update more than once every 10 minutes. To improve our programs performance and reduce the number of API calls we need to make, we could introduce caching to our program. It would make sense to cache data for each city up to 10 minutes since that's the refresh rate. If a user requests data for a city that's already been cached we can immideately return the response instead of making an API request.
+  * The [OpenWeatherMap API Tips](https://openweathermap.org/appid) also state that weather data in their system doesn't update more than once every 10 minutes. To improve our programs performance and reduce the number of API calls we need to make, we could introduce caching to our program. It would make sense to cache data for each city up to 10 minutes since that's the refresh rate. If a user requests data for a city that's already been cached we can immediately return the response instead of making an API request.
 
   * It might also make sense to make API requests asynchronously. Because of rate limiting there would need to be some consideration for batching requests together before making a group of API requests. Being able to send a group of requests off at the same time would drastically improve the speed of the program.
 
@@ -163,4 +163,4 @@ $: pipenv --rm
   * The path to an empty csv file is passed into the function.
 
 
-  Because the program expects to call the city name API endpoint, no weather data is collected if users try to request data by city ID or geographic location. However, through testing, I was surprised to discover that passing in a zipcode and country code to the city name endpoint sometimes returns data. If no weather data is collected from the API while parsing through the input csv, then an exception is thrown and no output csv is generated.
+  Because the program expects to call the city name API endpoint, no weather data is collected if users try to request data by city ID or geographic location. However, through testing, I was surprised to discover that passing in a zip code and country code to the city name endpoint sometimes returns data. If no weather data is collected from the API while parsing through the input csv, then an exception is thrown and no output csv is generated.
